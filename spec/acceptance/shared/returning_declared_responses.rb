@@ -291,6 +291,13 @@ shared_context "declared responses" do |*adapter_info|
       end
     end
 
+    describe "when response is an array" do
+      it "should return responses one by one if declared in array" do
+        stub_request(:get, "www.example.com").to_return(body: [5])
+        expect(http_request(:get, "http://www.example.com/").body).to eq([5])
+      end
+    end
+
     describe "when sequences of responses are declared" do
       it "should return responses one by one if declared in array" do
         stub_request(:get, "www.example.com").to_return([ {body: "1"}, {body: "2"}, {body: "3"} ])
